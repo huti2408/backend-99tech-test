@@ -1,12 +1,18 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken"
 import User from "../model/User";
+import { TypeResponse } from "../type/common";
 
 export default class UserController {
     public static async GetAllUsers(req: Request, res: Response) {
         try {
             const users = await User.find();
-            res.status(200).json(users)
+            const usersResponse: TypeResponse = {
+                data: users,
+                errorCode: "00",
+                message: "Get all users successfully"
+            }
+            res.status(200).json(usersResponse)
             return
         }
         catch (err) {
@@ -18,20 +24,29 @@ export default class UserController {
     public static async SignUp(req: Request, res: Response) {
         const { phone, name, password } = req.body
         const existedUser = await User.findOne({ phone })
+        const usersResponse: TypeResponse = {
+            data: null,
+            errorCode: "00",
+            message: "Sign up successfully"
+        }
         if (existedUser) {
-            res.status(400).json({ message: "Phone is existed" })
+            usersResponse.message = "Phone is existed"
+            usersResponse.errorCode = "10"
+            res.status(400).json(usersResponse)
             return
         }
         else {
             try {
                 const newUser = await User.create({ phone, password, name, })
                 await newUser.save()
-                res.status(201).json({ message: `Sign Up ${phone} Successfully!` })
+                usersResponse.data = { phone }
+                res.status(201).json(usersResponse)
                 return
             }
             catch (err) {
-                console.log(err.message)
-                res.status(400).json({ error: err.message });
+                usersResponse.message = err.message
+                usersResponse.errorCode = "99"
+                res.status(400).json(usersResponse);
                 return
             }
         }
@@ -39,30 +54,41 @@ export default class UserController {
     }
 
     public static async SignIn(req: Request, res: Response) {
+        const signInResponse: TypeResponse = {
+            data: null,
+            errorCode: "00",
+            message: "Sign in successfully"
+        }
         try {
             const { password, phone } = req.body
             if (!password || !phone) {
-                res.status(400).json({ message: "Phone or password is not correct!" })
+                signInResponse.message = "Phone or password is not correct!"
+                signInResponse.errorCode = "11"
+                res.status(400).json(signInResponse)
                 return
             }
             const user: any = await User.findOne({ phone })
             const isCorrectPassword = await user.comparePassword(password)
             if (!user || !isCorrectPassword) {
-                res.status(400).json({ message: "Phone or password is not correct!" })
+                signInResponse.message = "Phone or password is not correct!"
+                signInResponse.errorCode = "11"
+                res.status(400).json(signInResponse)
                 return
             }
             const userId = user._id;
             const token = jwt.sign({
-                id: userId, phone: phone
+                userId: userId, phone: phone
             }, process.env.KEY_JWT || "ABC",
                 { expiresIn: 60 * 60 * 4 }
             )
-            res.status(200).json({ token, userId, message: "Sign in successfully" })
+            signInResponse.data = { token, userId }
+            res.status(200).json(signInResponse)
             return
         }
         catch (err) {
-            console.log(err.message)
-            res.status(400).json({ message: err.message });
+            signInResponse.message = err.message
+            signInResponse.errorCode = "99"
+            res.status(400).json(signInResponse);
             return
         }
 

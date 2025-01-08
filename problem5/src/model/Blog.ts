@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
-    userId: { type: String, required: true, unique: true },
     title: { type: String, required: true },
-    shortContent: { type: String, required: true },
-    fullContent: { type: Date, default: Date.now },
+    shortContent: { type: String },
+    fullContent: { type: String, required: true },
+    active: { type: Boolean, default: true },
+    deleted: { type: Boolean, default: false, select: false },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
+    author: { type: mongoose.Types.ObjectId, ref: "User" }
 });
 
 const Blog = mongoose.model('Blog', blogSchema);
