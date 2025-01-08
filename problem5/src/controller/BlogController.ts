@@ -77,16 +77,16 @@ export default class BlogController {
             message: "Create blog successfully"
         }
         try {
-            const { phone } = req.user
+            const { userId } = req.user
             const { title, shortContent = null, fullContent } = req.body
-            const user = await User.findOne({ phone })
+            const user = await User.findOne({ _id: userId })
             if (!user) {
                 blogResponse.message = "Something was wrong, please try again later"
                 blogResponse.errorCode = "02"
                 res.status(400).json(blogResponse)
                 return
             }
-            const blog = await Blog.create({ title, shortContent, fullContent, author: user })
+            const blog = await Blog.create({ title, shortContent, fullContent, author: userId })
             await blog.save()
             blogResponse.data = blog
             res.status(200).json(blogResponse)

@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "e8598893-9c8a-461d-9adf-1fa464072977",
+		"name": "99Tech-Problem5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22361988"
+	},
+	"item": [
+		{
+			"name": "Sign in",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone\": \"0386837571\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:4000/users/signin"
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone\": \"0386837572\",\r\n    \"password\": \"123456\",\r\n    \"name\":\"Tester\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:4000/users/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "Get blogs",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/blogs?title=test",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"blogs"
+					],
+					"query": [
+						{
+							"key": "authorPhone",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzdlOWEzMjQ2YWVlYTRmYzdlYmRkNzMiLCJwaG9uZSI6IjAzODY4Mzc1NzEiLCJpYXQiOjE3MzYzNTY4OTUsImV4cCI6MTczNjM3MTI5NX0.KJDm1nZKsfEqk-hd0lo-ZQFj2sBBVb3L70-Ss1xBoj4"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "localhost:4000/blogs"
+			},
+			"response": []
+		},
+		{
+			"name": "Get detail blog",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/blogs/677eb4dbc84bcf2285cda029",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"blogs",
+						"677eb4dbc84bcf2285cda029"
+					],
+					"query": [
+						{
+							"key": "authorPhone",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzdlOWEzMjQ2YWVlYTRmYzdlYmRkNzMiLCJwaG9uZSI6IjAzODY4Mzc1NzEiLCJpYXQiOjE3MzYzNTY4OTUsImV4cCI6MTczNjM3MTI5NX0.KJDm1nZKsfEqk-hd0lo-ZQFj2sBBVb3L70-Ss1xBoj4"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Test B 111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:4000/blogs/delete/677eb564cf7928156712d30f"
+			},
+			"response": []
+		},
+		{
+			"name": "Update blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzdlOWEzMjQ2YWVlYTRmYzdlYmRkNzMiLCJwaG9uZSI6IjAzODY4Mzc1NzEiLCJpYXQiOjE3MzYzNTY4OTUsImV4cCI6MTczNjM3MTI5NX0.KJDm1nZKsfEqk-hd0lo-ZQFj2sBBVb3L70-Ss1xBoj4"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Test B 111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:4000/blogs/update/677eb521c84bcf2285cda02f"
+			},
+			"response": []
+		}
+	]
+}
