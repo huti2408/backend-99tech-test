@@ -1,26 +1,17 @@
 import express from "express";
 import 'dotenv/config'
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
-const mongoUri = "mongodb+srv://saophaiquay2:10aotskXbrbtkXFE@personalblog.8p4qi.mongodb.net/?retryWrites=true&w=majority&appName=PersonalBlog"
-const mongoClient = new MongoClient(mongoUri)
-async function run() {
-    try {
-      // Connect the client to the server	(optional starting in v4.7)
-      await mongoClient.connect();
-      // Send a ping to confirm a successful connection
-      await mongoClient.db("admin").command({ ping: 1 });
-      console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-      // Ensures that the mongoClient will close when you finish/error
-      await mongoClient.close();
-    }
-  }
-  run()
+const mongoUri = process.env.MONGO_URI || ''
+mongoose.connect(mongoUri).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Error connecting to MongoDB', err);
+});
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 app.use(express.json());
 
 app.listen(PORT, () => {
-    console.log("Server is running at PORT: " + PORT)
+  console.log("Server is running at PORT: " + PORT)
 })
