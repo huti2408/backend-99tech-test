@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import jwt from "jsonwebtoken"
+import { Response } from "express";
 import Blog from "../model/Blog";
 import { TypeResponse } from "../type/common";
 import User from "../model/User";
@@ -22,7 +21,8 @@ export default class BlogController {
                 filter.title = { $regex: title, $options: 'i' };
             }
             if (authorPhone) {
-                filter.author.phone = authorPhone
+                const author = await User.findOne({ phone: authorPhone })
+                filter.author = author?._id
             }
             const blogs = await Blog.find(filter)
                 .limit(limitNumber)
